@@ -11,6 +11,7 @@ from utils.bboxes_utils import non_max_suppression
 from PIL import Image
 import random
 import config
+import cv2
 
 
 if __name__ == "__main__":
@@ -50,11 +51,17 @@ if __name__ == "__main__":
     img = torch.from_numpy(img)
     img = img.float() / 255
 
+    res=img.to_numpy()
+    res=res.astype(np.uint8)
+    res=cv2.CvtColor(res,cv2.COLOR_RGB2BGR)
+    cv2.imwrite('/content/1.png',res)
+
     with torch.no_grad():
         out = model(img)
 
     bboxes = cells_to_bboxes(out, model.head.anchors, model.head.stride, is_pred=True, to_list=False)
     bboxes = non_max_suppression(bboxes, iou_threshold=0.45, threshold=0.25, tolist=False)
+    print(bboxes)
     plot_image(img[0].permute(1, 2, 0).to("cpu"), bboxes, config.FLIR)
 
 
