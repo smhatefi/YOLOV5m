@@ -52,6 +52,7 @@ if __name__ == "__main__":
     img = img.float() / 255
 
     res=img.numpy()
+    res=res*255
     res=res.astype(np.uint8)
     res=cv2.cvtColor(res,cv2.COLOR_RGB2BGR)
     cv2.imwrite('/content/1.png',res)
