@@ -17,7 +17,7 @@ if __name__ == "__main__":
     # do not modify
     first_out = config.FIRST_OUT
     nc = len(config.FLIR)
-    img_path = "TFront-South-09-31-48-31-04610_jpg.rf.89effbdf6e51b340ad5d12b37e0da7b1.jpg"
+    img_path = "test-yolov5.jpg"
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--model_name", type=str,default="model_1" ,help="Indicate the folder inside SAVED_CHECKPOINT")
@@ -32,15 +32,18 @@ if __name__ == "__main__":
                     ch=(first_out * 4, first_out * 8, first_out * 16)).to(config.DEVICE)
 
     path2model = os.path.join("SAVED_CHECKPOINT", args.model_name, args.checkpoint)
-    load_model_checkpoint(model=model, model_name=path2model, training=False)
+    #load_model_checkpoint(model=model, model_name=path2model, training=False)
 
-    config.ROOT_DIR = "/".join((config.ROOT_DIR.split("/")[:-1] + ["flir"]))
-    imgs = os.listdir(os.path.join(config.ROOT_DIR, "images", "test"))
-    if random_img:
-        img = np.array(Image.open(os.path.join(config.ROOT_DIR, "images", "test", random.choice(imgs))))
-    else:
+    parent_dir = Path(__file__).parent.parent
+    ROOT_DIR = os.path.join(parent_dir, "YOLOV5m" ,"datasets")
 
-        img = np.array(Image.open(os.path.join(config.ROOT_DIR, "images", "test", args.img)))
+    #imgs = os.listdir(os.path.join(config.ROOT_DIR, "images", "test"))
+    #if random_img:
+    #    img = np.array(Image.open(os.path.join(config.ROOT_DIR, "images", "test", random.choice(imgs))))
+    #else:
+    #    img = np.array(Image.open(os.path.join(config.ROOT_DIR, "images", "test", args.img)))
+
+    img = np.array(Image.open(os.path.join(ROOT_DIR, "test", args.img)))
 
     img = img.transpose((2, 0, 1))
     img = img[None, :]
@@ -51,7 +54,7 @@ if __name__ == "__main__":
         out = model(img)
 
     bboxes = cells_to_bboxes(out, model.head.anchors, model.head.stride, is_pred=True, to_list=False)
-    bboxes = non_max_suppression(bboxes, iou_threshold=0.45, threshold=0.25, to_list=False)
+    bboxes = non_max_suppression(bboxes, iou_threshold=0.45, threshold=0.25, tolist=False)
     plot_image(img[0].permute(1, 2, 0).to("cpu"), bboxes, config.FLIR)
 
 
