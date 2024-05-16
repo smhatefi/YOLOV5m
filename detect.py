@@ -17,7 +17,7 @@ if __name__ == "__main__":
     # do not modify
     first_out = config.FIRST_OUT
     nc = len(config.FLIR)
-    img_path = "test-yolov5.jpg"
+    img_path = "1.jpg"
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--model_name", type=str,default="model_1" ,help="Indicate the folder inside SAVED_CHECKPOINT")
