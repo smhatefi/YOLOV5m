@@ -51,7 +51,7 @@ if __name__ == "__main__":
     img = torch.from_numpy(img)
     img = img.float() / 255
 
-    res=img.to_numpy()
+    res=img.numpy()
     res=res.astype(np.uint8)
     res=cv2.CvtColor(res,cv2.COLOR_RGB2BGR)
     cv2.imwrite('/content/1.png',res)
