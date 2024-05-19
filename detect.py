@@ -12,6 +12,7 @@ from PIL import Image
 import random
 import config
 import cv2
+import matplotlib.pyplot as plt
 
 
 if __name__ == "__main__":
@@ -51,11 +52,27 @@ if __name__ == "__main__":
     img = torch.from_numpy(img)
     img = img.float() / 255
 
+    """
     res=img.numpy()
     res=res*255
     res=res.astype(np.uint8)
     res=cv2.cvtColor(res,cv2.COLOR_RGB2BGR)
     cv2.imwrite('/content/1.png',res)
+    """
+
+    # Reverse the transformations
+    res = img * 255  # Denormalize (if the normalization was done using division by 255)
+    res = res.squeeze(0)  # Remove the added batch dimension
+    res = res.numpy()  # Convert tensor to NumPy array
+    res = res.transpose((1, 2, 0))  # Change from (C, H, W) to (H, W, C)
+
+    # Convert the data type to uint8
+    res = res.astype(np.uint8)
+
+    # Display the image using matplotlib
+    plt.imshow(img)
+    plt.axis('off')  # Turn off axis numbers and ticks
+    plt.show()
 
     with torch.no_grad():
         out = model(img)
