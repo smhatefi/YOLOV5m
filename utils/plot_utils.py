@@ -194,4 +194,8 @@ def plot_image(image, boxes, labels=config.COCO):
             verticalalignment="top",
             bbox={"color": colors[int(class_pred)], "pad": 0},
         )
+    plt.axis('off')  # Turn off the axis
+    # Save the plot to a file
+    plt.savefig('/content/output_image.png')
+    plt.close(fig)
     plt.show()

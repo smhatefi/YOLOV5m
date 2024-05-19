@@ -59,7 +59,7 @@ if __name__ == "__main__":
     res=cv2.cvtColor(res,cv2.COLOR_RGB2BGR)
     cv2.imwrite('/content/1.png',res)
     """
-
+    """
     # Reverse the transformations
     res = img * 255  # Denormalize (if the normalization was done using division by 255)
     res = res.squeeze(0)  # Remove the added batch dimension
@@ -73,6 +73,7 @@ if __name__ == "__main__":
     plt.imshow(res)
     plt.axis('off')  # Turn off axis numbers and ticks
     plt.show()
+    """
 
     with torch.no_grad():
         out = model(img)
@@ -80,6 +81,11 @@ if __name__ == "__main__":
     bboxes = cells_to_bboxes(out, model.head.anchors, model.head.stride, is_pred=True, to_list=False)
     bboxes = non_max_suppression(bboxes, iou_threshold=0.45, threshold=0.25, tolist=False)
     print(bboxes)
-    plot_image(img[0].permute(1, 2, 0).to("cpu"), bboxes, config.FLIR)
+    res = img * 255  # Denormalize (if the normalization was done using division by 255)
+    res = res.squeeze(0)  # Remove the added batch dimension
+    res = res.permute(1, 2, 0)  # Change from (C, H, W) to (H, W, C)
+    res = res.numpy()  # Convert tensor to NumPy array
+    #plot_image(img[0].permute(1, 2, 0).to("cpu"), bboxes, config.FLIR)
+    plot_image(res, bboxes, config.FLIR)
 
 
