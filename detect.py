@@ -68,7 +68,7 @@ if __name__ == "__main__":
     res = res.astype(np.uint8)  # Convert the data type to uint8
 
     # Display the image using matplotlib
-    plt.imshow(img)
+    plt.imshow(res)
     plt.axis('off')  # Turn off axis numbers and ticks
     plt.show()
 
