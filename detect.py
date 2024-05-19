@@ -66,8 +66,8 @@ if __name__ == "__main__":
     res = res.permute(1, 2, 0)  # Change from (C, H, W) to (H, W, C)
     res = res.numpy()  # Convert tensor to NumPy array
     res = res.astype(np.uint8)  # Convert the data type to uint8
-    res=cv2.cvtColor(res,cv2.COLOR_RGB2BGR)
-    cv2.imwrite('/content/1.png',res)
+    res2=cv2.cvtColor(res,cv2.COLOR_RGB2BGR)
+    cv2.imwrite('/content/1.png',res2)
 
     # Display the image using matplotlib
     plt.imshow(res)
