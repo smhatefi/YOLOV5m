@@ -63,11 +63,9 @@ if __name__ == "__main__":
     # Reverse the transformations
     res = img * 255  # Denormalize (if the normalization was done using division by 255)
     res = res.squeeze(0)  # Remove the added batch dimension
+    res = res.permute(1, 2, 0)  # Change from (C, H, W) to (H, W, C)
     res = res.numpy()  # Convert tensor to NumPy array
-    res = res.transpose((1, 2, 0))  # Change from (C, H, W) to (H, W, C)
-
-    # Convert the data type to uint8
-    res = res.astype(np.uint8)
+    res = res.astype(np.uint8)  # Convert the data type to uint8
 
     # Display the image using matplotlib
     plt.imshow(img)
