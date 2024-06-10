@@ -250,6 +250,8 @@ if __name__ == "__main__":
 
     model = YOLOV5m(first_out=first_out, nc=nc, anchors=anchors,
                     ch=(first_out*4, first_out*8, first_out*16), inference=False)
+    
+    print(model)
 
     start = time.time()
     out = model(x)
