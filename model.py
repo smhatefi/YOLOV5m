@@ -6,6 +6,7 @@ from torchvision.transforms import Resize
 from torchvision.transforms import InterpolationMode
 import config
 from utils.utils import check_size, count_parameters
+import warnings
 
 
 def autopad(k, p=None, d=1):
